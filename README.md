@@ -61,14 +61,14 @@ The source code is currently hosted on GitHub at: https://github.com/quati-dev/q
 
 
 > [!WARNING]
-> It's essential to use [**Python 3.10**](https://www.python.org/downloads/release/python-310/) version
+> It's essential to use [**Python 3.10** 🡽](https://www.python.org/downloads/release/python-310/) version
 <!-- > It's essential to **upgrade pip** to the latest version to ensure compatibility with the library. -->
 <!-- > ```sh
 > # Requires the latest pip
 > pip install --upgrade pip
 > ``` -->
 
-- [PyPI](https://pypi.org/project/quati/)
+- [PyPI 🡽](https://pypi.org/project/quati/)
 	```sh
 	# PyPI
 	pip install quati
@@ -80,16 +80,13 @@ The source code is currently hosted on GitHub at: https://github.com/quati-dev/q
 	```
 
 ## Documentation
-The official documentation is here [Documentation](https://github.com/quati-dev/quati/blob/main/DOCUMENTATION.md).
+- [Documentation 🡽](https://github.com/quati-dev/quati/blob/main/DOCUMENTATION.md).
 
 ## License
-[MIT](https://github.com/quati-dev/quati/blob/main/LICENSE)
+- [MIT 🡽](https://github.com/quati-dev/quati/blob/main/LICENSE)
 
 ## Dependencies
-- [NumPy](https://numpy.org/)
-- [Pandas](https://pandas.pydata.org/)
-- [Selenium](https://www.selenium.dev/)
-- [gspread](https://docs.gspread.org/)
+- [NumPy 🡽](https://numpy.org/) | [Pandas 🡽](https://pandas.pydata.org/) | [Selenium 🡽](https://www.selenium.dev/) | [gspread 🡽](https://docs.gspread.org/)
 
 See the [full installation instructions](https://github.com/quati-dev/quati/blob/main/INSTALLATION.md) for minimum supported versions of required, recommended and optional dependencies.
 
