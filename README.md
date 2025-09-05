@@ -50,11 +50,11 @@ Here are just a few of the things that pandas does well:
 - [`search_file()`](https://github.com/quati-dev/quati/blob/main/doc/system.md#search_file): Searches for the existence of a file
 - [`progress_bar()`](https://github.com/quati-dev/quati/blob/main/doc/system.md#progress_bar): Waits for the specified number of seconds with an optional progress bar
 - [`get_system_info()`](https://github.com/quati-dev/quati/blob/main/doc/system.md#get_system_info): Retrieves system information using the 'uname -a' command
-<!-- - [`start_browser()`](https://github.com/quati-dev/quati/blob/main/doc/scrapping.md#start_browser): Initialize a Chrome browser using Selenium -->
+- [`start_browser()`](https://github.com/quati-dev/quati/blob/main/doc/scrapping.md#start_browser): Initialize a Chrome browser using Selenium -->
 <!-- - [`export_cookies()`](https://github.com/quati-dev/quati/blob/main/doc/scrapping.md#export_cookies): Export cookies from browser -->
-<!-- - [`import_cookies()`](https://github.com/quati-dev/quati/blob/main/doc/scrapping.md#import_cookies): Import cookies to browser -->
-<!-- - [`check_element()`](https://github.com/quati-dev/quati/blob/main/doc/scrapping.md#check_element): Function to check if an element exists on a web page based on the provided XPath -->
-<!-- - [`esc_or_click()`](https://github.com/quati-dev/quati/blob/main/doc/scrapping.md#esc_or_click): Function to either press the ESC key or click on an element on a web page -->
+- [`import_cookies()`](https://github.com/quati-dev/quati/blob/main/doc/scrapping.md#import_cookies): Import cookies to browser
+- [`check_element()`](https://github.com/quati-dev/quati/blob/main/doc/scrapping.md#check_element): Function to check if an element exists on a web page based on the provided XPath
+- [`esc_or_click()`](https://github.com/quati-dev/quati/blob/main/doc/scrapping.md#esc_or_click): Function to either press the ESC key or click on an element on a web page
 
 ## Where to get it / Install
 The source code is currently hosted on GitHub at: https://github.com/quati-dev/quati

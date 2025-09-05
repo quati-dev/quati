@@ -8,7 +8,7 @@ Provides a set of tools for automating browser interactions, allowing you to per
 > ```
 
 - [`start_browser()`](scrapping.md#start_browser): Initialize a Chrome browser using Selenium
-- [`export_cookies()`](scrapping.md#export_cookies): Export cookies from browser
+<!-- - [`export_cookies()`](scrapping.md#export_cookies): Export cookies from browser -->
 - [`import_cookies()`](scrapping.md#import_cookies): Import cookies to browser
 - [`check_element()`](scrapping.md#check_element): Function to check if an element exists on a web page based on the provided XPath
 - [`esc_or_click()`](scrapping.md#esc_or_click): Function to either press the ESC key or click on an element on a web page
@@ -24,12 +24,12 @@ In [1]: url = "https://www.example.com"
 In [1]: browser = start_browser(path, url, headless=True)
 ```
 
-### `export_cookies()`
+<!-- ### `export_cookies()`
 The `export_cookies()` function exports cookies from browser to maintain session state, which is useful for accessing authenticated web pages without logging in repeatedly.
 
 ```py
 In [1]: export_cookies("/home/computer/Desktop/", "cookieFile.pkl", driver)
-```
+``` -->
 
 ### `import_cookies()`
 The `import_cookies()` function imports cookies into the browser to maintain session state, which is useful for accessing authenticated web pages without logging in repeatedly.
