@@ -97,6 +97,36 @@ def import_cookies(file_path, file_name, webdriver_browser):
     return webdriver_browser
 
 
+def export_cookies(file_path, webdriver_browser):
+    """
+    Export cookies from the current browser session to a file.
+
+    Parameters
+    ----------
+    `webdriver_browser` : Browser object
+        The Selenium WebDriver instance with an active session.
+    `path` : str
+        Full path (including filename) where the cookies will be saved.
+
+    Returns
+    -------
+    bool
+        True if cookies were successfully saved, False otherwise.
+
+    Example
+    -------
+    >>> export_cookies(browser, "/home/user/Desktop/google_cookies.pkl")
+    """
+    try:
+        cookies = webdriver_browser.get_cookies()
+        with open(file_path, "wb") as file:
+            pickle.dump(cookies, file)
+        return True
+    except Exception as e:
+        print(f"Erro ao exportar cookies: {str(e)}")
+        return False
+
+
 def check_element(element_xpath: str = ""):
     """
     Function to check if an element exists on a web page based on the provided XPath.
