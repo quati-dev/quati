@@ -14,5 +14,26 @@
     "python.autoComplete.extraPaths": [],
     "python.condaPath": "",
     "python.experiments.optInto": [],
-    "settingsSync.ignoredSettings": ["-python.sortImports.path"]
+    "settingsSync.ignoredSettings": [
+        "-python.sortImports.path"
+    ],
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#3e4153",
+        "activityBar.background": "#3e4153",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#000000",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#3e4153",
+        "statusBar.background": "#282a36",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#3e4153",
+        "statusBarItem.remoteBackground": "#282a36",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#282a36",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#282a3699",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    }
 }

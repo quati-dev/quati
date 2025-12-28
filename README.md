@@ -8,7 +8,7 @@
 	<hr>
 <h1>quati: A python <u>Quick Actions Toolkit</u> for data engeneering</h1>
 
-<img src="https://img.shields.io/badge/Author-lucaslealll-blue?logo=github&logoColor=white"> <img src="https://img.shields.io/badge/Status-Beta-DF1F72"> <img src="https://img.shields.io/badge/License-MIT-750014.svg">
+<img src="https://img.shields.io/badge/Author-lucaslealll-blue?logo=github&logoColor=white"> <img src="https://img.shields.io/badge/License-MIT-750014.svg"> <!-- <img src="https://img.shields.io/badge/Status-Beta-DF1F72">  -->
 <br>
 <img src="https://img.shields.io/pypi/v/quati.svg?label=Version&color=white"> <img src="https://img.shields.io/pypi/pyversions/quati?logo=python&logoColor=white&label=Python"> <img src="https://img.shields.io/badge/Code Style-Black Formatter-111.svg"> 
 <br>
