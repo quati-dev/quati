@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "quati"
 version = "1.0.0"
-description = "Dynamic data eng. functions to accelerate development and coding"
+description = "A professional-grade toolkit for seamless automation and workflow optimization"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
