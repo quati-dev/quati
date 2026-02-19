@@ -1,8 +1,8 @@
 <div align="center">
 	<picture>
 	<!-- <source media="(prefers-color-scheme: dark)" srcset="assets/quati_white.svg"> -->
-	<source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/quati-dev/quati/refs/heads/main/assets/quati.svg">
-		<img src="https://raw.githubusercontent.com/quati-dev/quati/refs/heads/main/assets/quati.svg" width="100%">
+	<source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/quati-dev/quati/refs/heads/main/assets/quati.png">
+		<img src="https://raw.githubusercontent.com/quati-dev/quati/refs/heads/main/assets/quati.png" width="100%">
 	</picture>
 	<br><br><br>
 	<hr>
