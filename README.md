@@ -36,28 +36,28 @@ and reduced time-to-market.
 - [Dependencies](#dependencies)
 
 ## Main Features
-Here are just a few of the things that pandas does well:
+Here are just a few of the things that quati does well:
 
-- [`convert_magnitude_string()`](https://github.com/quati-dev/quati/blob/main/doc/data.md#convert_magnitude_string): Transforms string-based magnitude suffixes (K, M, B) into numerical integers
-- [`format_column_header()`](https://github.com/quati-dev/quati/blob/main/doc/data.md#format_column_header): Normalizes DataFrame column names by handling special characters and casing
-- [`sync_dataframe_to_bq_schema()`](https://github.com/quati-dev/quati/blob/main/doc/gooogle.md#sync_dataframe_to_bq_schema): Aligns Pandas DataFrame data types with a specific BigQuery table schema
-- [`execute_bq_fetch()`](https://github.com/quati-dev/quati/blob/main/doc/gooogle.md#execute_bq_fetch): Runs a BigQuery SQL query and returns the results as a Pandas DataFrame
-- [`acquire_gsheet_access()`](https://github.com/quati-dev/quati/blob/main/doc/gooogle.md#acquire_gsheet_access): Authorizes and retrieves a Google Sheets worksheet object
-- [`retrieve_gsheet_as_df()`](https://github.com/quati-dev/quati/blob/main/doc/gooogle.md#retrieve_gsheet_as_df): Imports Google Sheets data directly into a Pandas DataFrame
-- [`remove_gsheet_duplicates()`](https://github.com/quati-dev/quati/blob/main/doc/gooogle.md#remove_gsheet_duplicates): Deduplicates sheet rows based on specific columns and updates the source
-- [`locate_next_empty_cell()`](https://github.com/quati-dev/quati/blob/main/doc/gooogle.md#locate_next_empty_cell): Identifies the next available cell ID for data insertion in a column
-- [`push_df_to_gsheet()`](https://github.com/quati-dev/quati/blob/main/doc/gooogle.md#push_df_to_gsheet): Updates a worksheet using a DataFrame starting from a reference pivot cell
-- [`Dispatcher.push_emsg()`](https://github.com/quati-dev/quati/blob/main/doc/msger.md#push_emsg): Sends structured HTML alerts (Types: error, warning, note, tip, important) with attachment support
-- [`erase_file()`](https://github.com/quati-dev/quati/blob/main/doc/system.md#erase_file): Removes a specified file from the file system
-- [`modify_file_name()`](https://github.com/quati-dev/quati/blob/main/doc/system.md#modify_file_name): Renames an existing file based on path and prefix
-- [`locate_and_verify_file()`](https://github.com/quati-dev/quati/blob/main/doc/system.md#locate_and_verify_file): Searches for a file and validates it against a minimum size threshold
-- [`display_timer()`](https://github.com/quati-dev/quati/blob/main/doc/system.md#display_timer): Implements a wait period with an optional visual progress bar
-- [`fetch_host_details()`](https://github.com/quati-dev/quati/blob/main/doc/system.md#fetch_host_details): Extracts detailed system architecture and kernel information
-- [`launch_navigator()`](https://github.com/quati-dev/quati/blob/main/doc/navigation.md#launch_navigator): Initializes a customized Chrome WebDriver instance
-- [`save_session_cookies()`](https://github.com/quati-dev/quati/blob/main/doc/navigation.md#save_session_cookies): Exports active browser session cookies to a local file
-- [`load_session_cookies()`](https://github.com/quati-dev/quati/blob/main/doc/navigation.md#load_session_cookies): Injects saved cookies into the browser to bypass authentication
-- [`is_node_present()`](https://github.com/quati-dev/quati/blob/main/doc/navigation.md#is_node_present): Validates the existence of a web element using XPath
-- [`dismiss_popup()`](https://github.com/quati-dev/quati/blob/main/doc/navigation.md#dismiss_popup): Automates popup closure via ESC key or targeted element clicks
+⠀⠀[**`convert_magnitude_string()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#convert_magnitude_string): Transforms string-based magnitude suffixes (K, M, B) into numerical integers <br>
+⠀⠀[**`format_column_header()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#format_column_header): Normalizes DataFrame column names by handling special characters and casing <br>
+⠀⠀[**`sync_dataframe_to_bq_schema()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#sync_dataframe_to_bq_schema): Aligns Pandas DataFrame data types with a specific BigQuery table schema <br>
+⠀⠀[**`execute_bq_fetch()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#execute_bq_fetch): Runs a BigQuery SQL query and returns the results as a Pandas DataFrame <br>
+⠀⠀[**`acquire_gsheet_access()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#acquire_gsheet_access): Authorizes and retrieves a Google Sheets worksheet object <br>
+⠀⠀[**`retrieve_gsheet_as_df()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#retrieve_gsheet_as_df): Imports Google Sheets data directly into a Pandas DataFrame <br>
+⠀⠀[**`remove_gsheet_duplicates()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#remove_gsheet_duplicates): Deduplicates sheet rows based on specific columns and updates the source <br>
+⠀⠀[**`locate_next_empty_cell()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#locate_next_empty_cell): Identifies the next available cell ID for data insertion in a column <br>
+⠀⠀[**`push_df_to_gsheet()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#push_df_to_gsheet): Updates a worksheet using a DataFrame starting from a reference pivot cell <br>
+⠀⠀[**`Dispatcher.push_emsg()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#push_emsg): Sends structured HTML alerts (Types: error, warning, note, tip, important) with attachment support <br>
+⠀⠀[**`erase_file()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#erase_file): Removes a specified file from the file system <br>
+⠀⠀[**`modify_file_name()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#modify_file_name): Renames an existing file based on path and prefix <br>
+⠀⠀[**`locate_and_verify_file()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#locate_and_verify_file): Searches for a file and validates it against a minimum size threshold <br>
+⠀⠀[**`display_timer()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#display_timer): Implements a wait period with an optional visual progress bar <br>
+⠀⠀[**`fetch_host_details()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#fetch_host_details): Extracts detailed system architecture and kernel information <br>
+⠀⠀[**`launch_navigator()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#launch_navigator): Initializes a customized Chrome WebDriver instance <br>
+⠀⠀[**`save_session_cookies()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#save_session_cookies): Exports active browser session cookies to a local file <br>
+⠀⠀[**`load_session_cookies()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#load_session_cookies): Injects saved cookies into the browser to bypass authentication <br>
+⠀⠀[**`is_node_present()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#is_node_present): Validates the existence of a web element using XPath <br>
+⠀⠀[**`dismiss_popup()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#dismiss_popup): Automates popup closure via ESC key or targeted element clicks <br>
 
 ## Where to get it / Install
 The source code is currently hosted on GitHub at: https://github.com/quati-dev/quati
@@ -83,7 +83,7 @@ The source code is currently hosted on GitHub at: https://github.com/quati-dev/q
 	```
 
 ## Documentation
-- [Documentation](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md).
+- [Documentation](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md)
 
 ## License
 - [MIT](https://github.com/quati-dev/quati/blob/main/LICENSE)
