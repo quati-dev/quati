@@ -2,7 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
+
 *.ipynb
+.vscode
+
 # C extensions
 *.so
 
