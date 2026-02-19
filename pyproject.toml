@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quati"
+version = "1.0.0"
+description = "Dynamic data eng. functions to accelerate development and coding"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+authors = [
+  { name = "lucaslealll" }
+]
+
+keywords = [
+  "quick", "actions", "toolkit", "functions"
+]
+
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.10",
+  "Topic :: Software Development :: Libraries"
+]
+
+dependencies = [
+  "google-cloud-bigquery==2.34.4",
+  "google-cloud-bigquery-storage==2.27.0",
+  "gspread==5.5.0",
+  "oauthlib==3.2.2",
+  "pandas==1.3.4",
+  "pandas-gbq==0.14.1",
+  "requests==2.32.3",
+  "selenium==4.7.2",
+  "tqdm==4.67.1"
+]
+
+[project.urls]
+Homepage = "https://pypi.org/project/quati"
+Documentation = "https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md"
+Repository = 'https://github.com/quati-dev/quati'
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["quati*"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra"
+testpaths = ["tests"]

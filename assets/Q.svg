@@ -1,0 +1,34 @@
+<svg id="Q" xmlns="http://www.w3.org/2000/svg" width="789.438" height="838.25" viewBox="0 0 789.438 838.25">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+      }
+
+      .cls-1 {
+        stroke: #805726;
+        stroke-linecap: round;
+        stroke-width: 69px;
+      }
+
+      .cls-1, .cls-2 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2, .cls-3 {
+        stroke: #522f06;
+        stroke-width: 70px;
+      }
+
+      .cls-2 {
+        stroke-linejoin: round;
+        stroke-dasharray: 109.2 35;
+      }
+    </style>
+  </defs>
+  <g id="_" data-name="~">
+    <path class="cls-1" d="M138.9,607.234c44.062-48.977,104.326-78.017,169.95-79.478,64.5-1.435,130.806,25.033,174.185,73,45.379,50.178,66.442,139.836,94.737,191.9,15.3,28.154,34.478,54.361,65.3,61.768,42.566,10.229,82.2-14.443,115.846-54.219" transform="translate(-4 -53)"/>
+    <path class="cls-2" d="M137.9,608.234c44.062-48.977,105.326-79.017,170.95-80.478,64.5-1.435,130.806,25.033,174.185,73,45.379,50.178,66.442,139.836,94.737,191.9,12.918,23.769,31.715,53.663,65.3,61.768s69.494-9.094,98.732-35.61" transform="translate(-4 -53)"/>
+  </g>
+  <circle class="cls-3" cx="356" cy="356" r="321"/>
+</svg>
