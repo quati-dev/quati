@@ -11,73 +11,66 @@ warnings.filterwarnings("ignore")
 
 
 def launch_navigator(
-    target_url: str = "https://google.com.br",
-    driver_binary: str = "",
+    target_url: str = "about:blank",
+    driver_binary: str = "/usr/local/bin/chromedriver",
     is_headless: bool = False,
     is_muted: bool = True,
+    custom_flags: list = None,
 ) -> webdriver.Chrome:
     """
-    Initialize a Chrome browser using Selenium.
+    Initializes a Chrome browser using Selenium with customizable settings.
 
     Parameters:
-    - driver_binary (str): The path to the Chrome WebDriver executable.
-    - target_url (str): The desired login URL.
-    - is_headless (bool): Indicates whether to run the browser in headless mode (default: False).
+    - target_url (str): The URL to navigate to upon starting the browser. Default is "about:blank".
+    - driver_binary (str): The full path to the Chrome WebDriver executable. Default is "/usr/local/bin/chromedriver".
+    - is_headless (bool): If True, the browser runs in headless mode (without a graphical interface). Default is False.
+    - is_muted (bool): If True, the browser's audio is muted. Default is True.
+    - custom_flags (list): A list of custom flags to be passed to Chrome. Default is None, and if not provided, default flags are used.
 
     Returns:
-    - driver_instance (webdriver.Chrome): The initialized Chrome browser object.
+    - webdriver.Chrome: The Chrome browser object, ready for automation with Selenium.
 
-    Usage example:
-    chromedriver_path = "path/to/chromedriver"
-    url_login = "https://www.example.com"
-    browser = launch_navigator(chromedriver_path, url_login, is_headless=True)
+    Example usage:
+    >>> browser = launch_navigator("path/to/chromedriver", "https://www.example.com", custom_flags=["--incognito", "--disable-plugins"])
     """
 
-    chrome_cfg = webdriver.ChromeOptions()
-
-    if is_headless:
+    chrome_cfg = webdriver.ChromeOptions() 
+    if is_headless: # Adding headless mode flag if necessary
         chrome_cfg.add_argument("--headless=new")
-
-    if is_muted:
+    if is_muted: # Adding muted audio flag if necessary
         chrome_cfg.add_argument("--mute-audio")
 
-    # Security and performance arguments
-    flags = [
-        "--allow-insecure-localhost",
-        "--disable-dev-shm-usage",
-        "--disable-extensions",
-        "--disable-gpu",
-        "--disable-infobars",
-        "--disable-setuid-sandbox",
-        "--disable-web-security",
-        "--ignore-certificate-errors",
-        "--no-sandbox",
-        "--remote-debugging-port=9222",
-        "--start-maximized",
-        "--window-size=1920,1080",
-    ]
+    # Default security and performance flags
+    # fmt:off
+    flags = ["--allow-insecure-localhost", "--disable-blink-features=AutomationControlled", "--disable-dev-shm-usage",   "--disable-extensions", "--disable-gpu", "--disable-infobars", "--disable-setuid-sandbox", "--disable-web-security", "--ignore-certificate-errors", "--no-sandbox", "--remote-debugging-port=9222", "--start-maximized", "--window-size=1920,1080"]
+    # fmt:on
 
+    # If the user provided custom flags, we add them to the list
+    if custom_flags:
+        flags.extend(custom_flags)
+
+    # Apply all flags (default and custom)
     for flag in flags:
         chrome_cfg.add_argument(flag)
 
+    # Identifying the operating system (Windows, Linux, or macOS)
     os_identity = platform.system()
 
+    # Initialize the WebDriver based on the operating system
     if os_identity == "Windows":
         driver_instance = webdriver.Chrome(options=chrome_cfg)
-    elif os_identity in ["Linux", "Darwin"]:
-        # executable_path is deprecated in newer Selenium versions,
-        # using Service object is recommended, but keeping logic flow.
+    elif os_identity in ["Linux", "Darwin"]:  # Linux or macOS
         driver_instance = webdriver.Chrome(options=chrome_cfg, executable_path=driver_binary)
     else:
         raise OSError("Unidentified operating system")
 
+    # Attempt to navigate to the provided URL
     try:
         driver_instance.get(target_url)
         return driver_instance
     except Exception as error:
-        print(f"Failed to navigate to URL: {str(error)}")
+        print(f"Failed to navigate to the URL: {str(error)}")
         driver_instance.quit()
-
 
 def load_session_cookies(dir_path, search_term, driver_obj):
     """Import cookies to browser.
