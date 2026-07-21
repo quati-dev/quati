@@ -9,7 +9,7 @@ import requests
 
 # Asset and Connection Settings
 BRAND_LOGO_LINK = "https://raw.githubusercontent.com/quati-dev/quati/refs/heads/main/assets/quati.png"
-MAIL_SERVER = "smtp.mailing.com"
+MAIL_SERVER = "smtp.gmail.com"
 MAIL_PORT = 587
 
 # Visual Themes for Alerts
@@ -22,7 +22,7 @@ ALERT_THEMES = {
 }
 
 
-class Qmailer:
+class Gmailer:
     """
     Class for sending alert emails with custom HTML and attachment support.
 
