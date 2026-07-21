@@ -43,7 +43,7 @@ print(value)
 ⠀⠀⠀⠀[**`locate_next_empty_cell()`**](google.md#locate_next_empty_cell): Identifies the next available cell ID for data insertion in a column <br>
 ⠀⠀⠀⠀[**`push_df_to_gsheet()`**](google.md#push_df_to_gsheet): Updates a worksheet using a DataFrame starting from a reference pivot cell <br>
 **Messengers & Alerts** <br>
-⠀⠀[**`Dispatcher.push_emsg()`**](msger.md#push_emsg): Sends structured HTML alerts (Types: error, warning, note, tip, important) with attachment support <br>
+⠀⠀[**`Qmail.send_email_msg()`**](msger.md#send_email_msg): Sends structured HTML alerts (Types: error, warning, note, tip, important) with attachment support <br>
 **Headers & Constants** <br>
 ⠀⠀[**`Text Constants for ETL Phases` · `Google Sheets API Scope` · `Date and Time` · `Paths and File Locations` · `Database Connection` · `Data Sources` · `Miscellaneous Constants` · `Logging Levels` · `Email Configuration` · `ETL Process Status` · `Data Formats and Locations` · `ETL Configuration` · `Error Handling` · `Throttling and Rate Limits` · `Security` · `Data Export and Serialization` · `File Encoding` · `Data Validation` · `AWS S3 Paths` · `Encryption` · `Data Export Formats` · `Data Backup` · `Data Sampling`**](header.md) <br>
 **Log Messages** <br>
@@ -180,27 +180,27 @@ In [1]: push_df_to_gsheet(worksheet, stats_df, "A2")
 Provides a class to send styled alerts and informational emails from just a few lines of code.
 
 ```py
-from quati.msger.mailing import Dispatcher
+from quati.msger.mailing import Qmail
 ```
 
-- [**`Dispatcher`**](#dispatcher-class): Class to send HTML alert emails (types: error, tip, note, important, warning) with detailed context, attachments and metadata.
-- [**`push_emsg()`**](#push_emsg-method): Method of `Dispatcher` to trigger the actual sending of the email.
+- [**`Qmail`**](#qmail-class): Class to send HTML alert emails (types: error, tip, note, important, warning) with detailed context, attachments and metadata.
+- [**`send_email_msg()`**](#send_email_msg-method): Method of `Qmail` to trigger the actual sending of the email.
 
-### `Dispatcher` class
+### `Qmail` class
 
-The `Dispatcher` class allows you to configure a sender (`account_user`, `access_key`) and default recipients. It sends a rich HTML-formatted alert email with metadata, attachments, and styling based on the selected theme.
+The `Qmail` class allows you to configure a sender (`account_user`, `access_key`) and default recipients. It sends a rich HTML-formatted alert email with metadata, attachments, and styling based on the selected theme.
 
 #### Initialize email sender
 ```py
-notifier = Dispatcher(
+notifier = Qmail(
     account_user="your_email@gmail.com",
     access_key="your_app_token",
     default_list=["team@example.com", "devops@example.com"]
 )
 ```
 
-### `push_emsg()` method
-The `push_emsg()` method sends a formatted alert email based on the provided type (`error`, `important`, `note`, `tip`, or `warning`), including optional metadata and attachments.
+### `send_email_msg()` method
+The `send_email_msg()` method sends a formatted alert email based on the provided type (`error`, `important`, `note`, `tip`, or `warning`), including optional metadata and attachments.
 
 #### Parameters:
 - `abstract` (`str`): Short summary of the alert
@@ -214,7 +214,7 @@ The `push_emsg()` method sends a formatted alert email based on the provided typ
 - `recipients` (`list[str]`, optional): Override recipient list
 
 ```py
-notifier.push_emsg(
+notifier.send_email_msg(
     abstract="Daily Reminder",
     title="Friendly Notice",
     datetime="2026-02-18 23:40",
