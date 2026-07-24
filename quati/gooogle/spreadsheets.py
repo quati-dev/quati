@@ -1,148 +1,258 @@
 import gspread
 import pandas as pd
 from time import sleep
+from oauth2client.service_account import ServiceAccountCredentials
 
 
 def acquire_gsheet_access(auth_credentials, workbook_title, tab_title):
     """
-    Import a worksheet object from gsheets
+    Authenticate and retrieve a Google Sheets worksheet object.
 
     Parameters
     ----------
-    `auth_credentials` : Credentials to authorize project access on the google platform
-    `workbook_title` : name of the worksheet you want to get information about
-    `tab_title` : sheet page name you want to get data from
-    `head_row` : row where data header starts
+    auth_credentials : str
+        Path to the Google service account credentials JSON file.
 
-    By default:----------
-        - the function consider row 1 as header_
+    workbook_title : str
+        Name of the Google Sheets workbook.
+
+    tab_title : str
+        Name of the worksheet/tab inside the workbook.
+
+    Returns
+    -------
+    gspread.models.Worksheet
+        Authenticated worksheet object.
 
     Examples
     --------
-    Get the Google Sheets worksheet object
-    >>> worksheet = acquire_gsheet_access(GSHEETS_CREDENTIAL, "worksheet name", "data page name", 6)
+    >>> worksheet = acquire_gsheet_access(
+    ...     GSHEETS_CREDENTIAL,
+    ...     "My Workbook",
+    ...     "Data"
+    ... )
     """
-    session = gspread.authorize(auth_credentials)
-    target_tab = session.open(workbook_title).worksheet(tab_title)
-    return target_tab
+
+    credential = ServiceAccountCredentials.from_json_keyfile_name(
+        auth_credentials,
+        [
+            "https://spreadsheets.google.com/feeds",
+            "https://www.googleapis.com/auth/drive",
+        ],
+    )
+
+    client = gspread.authorize(credential)
+
+    return client.open(workbook_title).worksheet(tab_title)
 
 
-def retrieve_gsheet_as_df(auth_credentials, workbook_title, tab_title, header_index=1):
+def retrieve_gsheet_as_df(worksheet, header_index=1):
     """
-    Import a worksheet object from gsheets as a pandas dataframe
+    Retrieve a Google Sheets worksheet as a pandas DataFrame.
+
+    The worksheet object must be obtained previously using
+    acquire_gsheet_access(). This function does not handle
+    authentication or worksheet opening.
+
+    Workflow:
+        1. Authenticate and open worksheet:
+
+            worksheet = acquire_gsheet_access(
+                auth_credentials,
+                workbook_title,
+                tab_title
+            )
+
+        2. Convert worksheet data into DataFrame:
+
+            dataframe = retrieve_gsheet_as_df(worksheet)
 
     Parameters
     ----------
-    `auth_credentials` : Credentials to authorize project access on the google platform
-    `workbook_title` : name of the worksheet you want to get information about
-    `tab_title` : sheet page name you want to get data from
-    `header_index` : row where data header starts
+    worksheet : gspread.models.Worksheet
+        Authenticated worksheet object returned by
+        acquire_gsheet_access().
 
-    By default: the function consider row 1 as header
+    header_index : int, optional
+        Row number containing dataframe headers.
+
+        Default:
+            1
+
+    Returns
+    -------
+    pandas.DataFrame
+        Worksheet data converted into a pandas DataFrame.
 
     Examples
     --------
-    Get the Google Sheets worksheet object
-
-    ```
-    worksheet = retrieve_gsheet_as_df(GSHEETS_CREDENTIAL, "worksheet name", "data page name", 6)
-    ```
+    >>> worksheet = acquire_gsheet_access(
+    ...     GSHEETS_CREDENTIAL,
+    ...     "My Workbook",
+    ...     "Data"
+    ... )
+    ...
+    >>> dataframe = retrieve_gsheet_as_df(
+    ...     worksheet
+    ... )
     """
-    tab_obj = acquire_gsheet_access(auth_credentials, workbook_title, tab_title)
-    extracted_data = pd.DataFrame(tab_obj.get_all_records(head=header_index))
-    return extracted_data
+
+    return pd.DataFrame(worksheet.get_all_records(head=header_index))
 
 
 def remove_gsheet_duplicates(
-    auth_credentials,
+    worksheet,
     match_columns,
-    workbook_title,
-    tab_title,
     keep_strategy="first",
     origin_cell="A1",
     boundary_cell="ZZ",
 ):
-    """Returns dataframe where the column passed as parameter is considered the core set for duplicate data row remover.
+    """
+    Remove duplicated records from a Google Sheets worksheet.
+
+    The worksheet object must be authenticated and retrieved previously
+    using acquire_gsheet_access(). This function only performs data
+    manipulation and worksheet updates.
+
+    Workflow:
+        1. Authenticate and retrieve worksheet:
+
+            worksheet = acquire_gsheet_access(
+                auth_credentials,
+                workbook_title,
+                tab_title
+            )
+
+        2. Remove duplicated records:
+
+            dataframe = remove_gsheet_duplicates(
+                worksheet,
+                match_columns=["id"]
+            )
 
     Parameters
     ----------
-    `auth_credentials` : Credentials to authorize project access on the google platform
-    `match_columns`: column(s) to consider to check for duplicate data in it
-    `workbook_title` : name of the worksheet you want information about
-    `tab_title` : sheet page name you want to get data from
+    worksheet : gspread.models.Worksheet
+        Authenticated worksheet object returned by
+        acquire_gsheet_access().
 
-    By default:
-        - `keep_strategy` : Line 1 as data to be kept
-        - `origin_cell` : Cell "A1" as the starting point for dataframe cleaning and reordering
-        - `boundary_cell` : The cell "ZZ" as the endpoint for dataframe cleaning and reordering
+    match_columns : str or list
+        Column name(s) used to identify duplicated records.
+
+    keep_strategy : str or bool, optional
+        Defines which duplicated record should be kept.
+
+        Options:
+            - "first": keep first occurrence.
+            - "last": keep last occurrence.
+            - False: remove all duplicated records.
+
+        Default:
+            "first"
+
+    origin_cell : str, optional
+        Initial cell where cleaned data will be written.
+
+        Default:
+            "A1"
+
+    boundary_cell : str, optional
+        Final cell used when clearing the worksheet before update.
+
+        Default:
+            "ZZ"
+
+    Returns
+    -------
+    pandas.DataFrame
+        Clean dataframe after duplicated rows removal.
 
     Examples
     --------
-    Get the Google Sheets worksheet object
-
-    ```
-    dedup_df = remove_gsheet_duplicates(GSHEETS_CREDENTIAL, "post_title", "facebook_posts", "all_posts", "last", "A5")
-    ```
+    >>> worksheet = acquire_gsheet_access(
+    ...     GSHEETS_CREDENTIAL,
+    ...     "Instagram Data",
+    ...     "Posts"
+    ... )
+    ...
+    >>> dataframe = remove_gsheet_duplicates(
+    ...     worksheet,
+    ...     match_columns=["post_id"]
+    ... )
     """
-    tab_instance = gspread.authorize(auth_credentials).open(workbook_title).worksheet(tab_title)
-    data_frame = retrieve_gsheet_as_df(auth_credentials, workbook_title, tab_title)
 
-    data_frame = data_frame.astype(str).drop_duplicates(subset=match_columns, keep=keep_strategy)
+    dataframe = retrieve_gsheet_as_df(worksheet)
 
-    tab_instance.batch_clear([f"{origin_cell}:{boundary_cell}"])
-    tab_instance.update(
-        f"{origin_cell}",
-        data_frame.values.tolist(),
+    dataframe = dataframe.astype(str).drop_duplicates(subset=match_columns, keep=keep_strategy)
+
+    worksheet.batch_clear([f"{origin_cell}:{boundary_cell}"])
+
+    worksheet.update(
+        origin_cell,
+        dataframe.values.tolist(),
         value_input_option="USER_ENTERED",
     )
 
-    return data_frame
+    return dataframe
 
 
-def locate_next_empty_cell(tab_obj, col_letter):
+def locate_next_empty_cell(worksheet, col_letter):
     """
-    Return the ID of the next cell into which data can be entered
+    Return the next available cell position in a worksheet column.
 
     Parameters
     ----------
-    `tab_obj` : the worksheet "object" so that the function can identify the data
-    `col_letter` : column which function should be considered to check cell continuity
+    worksheet : gspread.models.Worksheet
+        Authenticated worksheet object.
 
-    Examples
-    --------
-    Get, from the facebook posts spreadsheet, in the column where the comments of all the posts are, the next line where the new data can be inserted
+    col_letter : str
+        Column letter to evaluate.
 
-    ```
-    df = locate_next_empty_cell(worksheet, "A")
-    A237
-    ```
+    Returns
+    -------
+    str
+        Next available cell reference.
+
+    Example
+    -------
+    >>> locate_next_empty_cell(
+    ...     worksheet,
+    ...     "A"
+    ... )
+
+    Returns:
+        A237
     """
-    filled_entries = list(filter(None, tab_obj.col_values(2)))
-    target_row = str(len(filled_entries) + 1)
-    return str(col_letter + target_row)
+
+    filled_entries = list(filter(None, worksheet.col_values(2)))
+
+    return f"{col_letter}{len(filled_entries) + 1}"
 
 
-def push_df_to_gsheet(tab_obj, source_df, anchor_cell):
+def push_df_to_gsheet(worksheet, source_df, anchor_cell):
     """
-    Update a Google Sheets spreadsheet from a reference column
+    Upload a dataframe into Google Sheets.
 
     Parameters
     ----------
-    `tab_obj`: the "object" of the worksheet so that the function can identify the data
-    `source_df`: the dataframe "object" so the function can transfer to the worksheet
-    `anchor_cell`: column which the function must be considered to establish the upload
+    worksheet : gspread.models.Worksheet
+        Authenticated worksheet object.
 
-    Examples
-    --------
-    Upload the face dataframe data, in the facebook statistics worksheet, considering the pivot column "A3"
+    source_df : pandas.DataFrame
+        Dataframe to upload.
 
-    ```
-    push_df_to_gsheet(worksheet, facebook_metrics_df, "A3")
-    ```
+    anchor_cell : str
+        Starting cell for data insertion.
+
+    Returns
+    -------
+    None
     """
+
     formatted_df = source_df.astype(str)
-    tab_obj.update(
-        f"{anchor_cell}",
+
+    worksheet.update(
+        anchor_cell,
         formatted_df.values.tolist(),
         value_input_option="USER_ENTERED",
     )
@@ -150,36 +260,45 @@ def push_df_to_gsheet(tab_obj, source_df, anchor_cell):
 
 def safe_open_tab(client, book_name, tab_name, limit=5, wait=60):
     """
-    Opens a worksheet in a Google Sheets spreadsheet by its name, with retry logic
-    to handle potential errors during the operation.
+    Open worksheet with retry logic.
 
-    Args:
-        client (gspread.Client): The authenticated gspread client object.
-        book_name (str): The name of the Google Sheets spreadsheet to open.
-        tab_name (str): The name of the worksheet to access within the spreadsheet.
-        limit (int, optional): The maximum number of retry attempts in case of failure. Defaults to 5.
-        wait (int, optional): The time (in seconds) to wait between retry attempts. Defaults to 60.
+    Parameters
+    ----------
+    client : gspread.Client
+        Authenticated Google Sheets client.
 
-    Returns:
-        gspread.models.Worksheet: The worksheet object if successfully opened.
+    book_name : str
+        Workbook name.
 
-    Raises:
-        Exception: If the function fails to open the worksheet after the specified number of retries.
+    tab_name : str
+        Worksheet name.
 
-    Example:
-        Get spreadsheet named "Planilha do Fulano" on worksheet "Aba teste".
+    limit : int
+        Maximum retry attempts.
 
-        worksheet = safe_open_tab(gc, "Planilha do Fulano", "Aba Teste")
+    wait : int
+        Waiting time between attempts.
+
+    Returns
+    -------
+    gspread.models.Worksheet
+        Worksheet object.
     """
-    step = 0
-    while step < limit:
+
+    attempt = 0
+
+    while attempt < limit:
+
         try:
             return client.open(book_name).worksheet(tab_name)
+
         except Exception as error:
-            step += 1
-            print(f"Attempt {step} | Book: {book_name} | Tab: {tab_name} failed: \n{error}")
-            if step < limit:
-                print(f"Waiting {wait}s...")
+
+            attempt += 1
+
+            print(f"Attempt {attempt} failed: {error}")
+
+            if attempt < limit:
                 sleep(wait)
             else:
                 raise
@@ -187,158 +306,180 @@ def safe_open_tab(client, book_name, tab_name, limit=5, wait=60):
 
 def safe_open_tab_by_url(client, link, tab_name, limit=5, wait=60):
     """
-    Opens a worksheet in a Google Sheets spreadsheet by its URL, with retry logic
-    to handle potential errors during the operation.
+    Open worksheet by URL with retry logic.
 
-    Args:
-        client (gspread.Client): The authenticated gspread client object.
-        link (str): The URL of the Google Sheets spreadsheet.
-        tab_name (str): The name of the worksheet to open.
-        limit (int, optional): The maximum number of retry attempts in case of failure. Defaults to 5.
-        wait (int, optional): The time (in seconds) to wait between retry attempts. Defaults to 60.
+    Parameters
+    ----------
+    client : gspread.Client
+        Authenticated Google Sheets client.
 
-    Returns:
-        gspread.models.Worksheet: The worksheet object if successfully opened.
+    link : str
+        Spreadsheet URL.
 
-    Raises:
-        Exception: If the function fails to open the worksheet after the specified number of retries.
+    tab_name : str
+        Worksheet name.
 
-    Example:
-        Opens by the url specified on sheet "Aba teste".
+    limit : int
+        Maximum retry attempts.
 
-        worksheet = safe_open_tab_by_url(gc, "https://docs.google.com/spreadsheets/d/XXXXX", "Aba teste")
+    wait : int
+        Waiting time between attempts.
+
+    Returns
+    -------
+    gspread.models.Worksheet
+        Worksheet object.
     """
-    step = 0
-    while step < limit:
+
+    attempt = 0
+
+    while attempt < limit:
+
         try:
             return client.open_by_url(link).worksheet(tab_name)
+
         except Exception as error:
-            step += 1
-            print(f"Attempt {step} | URL: {link} | Tab: {tab_name} failed: \n{error}")
-            if step < limit:
+
+            attempt += 1
+
+            print(f"Attempt {attempt} failed: {error}")
+
+            if attempt < limit:
                 sleep(wait)
             else:
                 raise
 
 
-def fetch_records_with_resilience(tab_obj, limit=5, wait=60, header_row=0, use_header=True):
+def fetch_records_with_resilience(worksheet, limit=5, wait=60, header_row=0, use_header=True):
     """
-    Fetches records from a Google Sheets worksheet and converts them into a Pandas DataFrame,
-    with retry logic to handle potential errors during the fetch process.
+    Fetch worksheet records with retry logic.
 
-    Args:
-        tab_obj (gspread.models.Worksheet): The worksheet object to fetch records from.
-        limit (int, optional): The maximum number of retry attempts in case of failure. Defaults to 5.
-        wait (int, optional): The time (in seconds) to wait between retry attempts. Defaults to 60.
-        header_row (int, optional): Specifies the row to use for column headers. Defaults to 0 (first row).
-        use_header (bool, optional): Whether to use the first row as column headers. Defaults to True.
+    Parameters
+    ----------
+    worksheet : gspread.models.Worksheet
+        Worksheet object.
 
-    Returns:
-        pd.DataFrame: A Pandas DataFrame containing the fetched records.
+    limit : int
+        Retry attempts.
 
-    Raises:
-        Exception: If the function fails to fetch records after the specified number of retries.
+    wait : int
+        Waiting time.
 
-    Example:
-        Get data from worksheet as a dataframe, including first row (number 0) as header.
+    header_row : int
+        Header row index.
 
-        dataframe = fetch_records_with_resilience(worksheet, header_row=0, use_header=True)
+    use_header : bool
+        Whether to use header row.
 
+    Returns
+    -------
+    pandas.DataFrame
+        Worksheet data.
     """
-    count = 0
-    while count < limit:
+
+    attempt = 0
+
+    while attempt < limit:
+
         try:
-            all_rows = tab_obj.get_all_values()
+
+            rows = worksheet.get_all_values()
+
             if use_header:
-                result_df = pd.DataFrame(all_rows[1:], columns=all_rows[header_row])
-            else:
-                result_df = pd.DataFrame(all_rows)
-            return result_df
+
+                return pd.DataFrame(rows[1:], columns=rows[header_row])
+
+            return pd.DataFrame(rows)
+
         except Exception as error:
-            count += 1
-            if count < limit:
+
+            attempt += 1
+
+            if attempt < limit:
                 sleep(wait)
             else:
-                raise Exception(f"Fetch failed after {limit} tries. Error: {error}")
+                raise Exception(f"Fetch failed: {error}")
 
 
-def find_next_row_with_resilience(tab_obj, col_index=1, limit=4, wait=60):
+def find_next_row_with_resilience(worksheet, col_index=1, limit=4, wait=60):
     """
-    Retrieves the next available row number in a Google Sheets worksheet,
-    with retry logic to handle potential failures.
+    Find next empty row in worksheet column.
 
-    Args:
-        tab_obj (gspread.models.Worksheet): The Google Sheets worksheet object.
-        col_index (int, optional): The starting column for checking values. Defaults to 1 (column A).
-        limit (int, optional): The maximum number of retry attempts in case of an error. Defaults to 4.
-        wait (int, optional): The time (in seconds) to wait between retries. Defaults to 60.
+    Parameters
+    ----------
+    worksheet : gspread.models.Worksheet
+        Worksheet object.
 
-    Returns:
-        int: The row number of the next available empty row in the worksheet.
+    col_index : int
+        Column index.
 
-    Raises:
-        Exception: If the function fails after the specified number of retries.
-
-    Example:
-        Get next available row given a column number.
-
-        next_row = find_next_row_with_resilience(worksheet, col_index=2)
+    Returns
+    -------
+    int
+        Next available row.
     """
-    count = 0
-    while count < limit:
+
+    attempt = 0
+
+    while attempt < limit:
+
         try:
-            column_data = tab_obj.col_values(col_index)
-            valid_rows = list(filter(None, column_data))
-            return len(valid_rows) + 1
+
+            values = worksheet.col_values(col_index)
+
+            return len(list(filter(None, values))) + 1
+
         except Exception as error:
-            count += 1
-            if count < limit:
+
+            attempt += 1
+
+            if attempt < limit:
                 sleep(wait)
             else:
-                raise Exception(f"Row detection failed. Error: {error}")
+                raise Exception(f"Row detection failed: {error}")
 
 
-def safe_worksheet_update(tab_obj, target_cell, data_df, limit=5, wait=60):
+def safe_worksheet_update(worksheet, target_cell, data_df, limit=5, wait=60):
     """
-    Updates a Google Sheets worksheet with the provided data,
-    using retries to handle potential errors during the update process.
+    Update worksheet with dataframe data using retries.
 
-    Args:
-        tab_obj (gspread.models.Worksheet): The worksheet object to update.
-        target_cell (str): The starting cell or range for the update (e.g., "A12").
-                Use `get_next_available_row_with_retry()` to determine available rows based on specific columns.
-        data_df (pandas.DataFrame): The data to be inserted, converted to a list of lists.
-        limit (int, optional): The maximum number of retry attempts in case of failure. Defaults to 5.
-        wait (int, optional): The time (in seconds) to wait between retry attempts. Defaults to 60.
+    Parameters
+    ----------
+    worksheet : gspread.models.Worksheet
+        Worksheet object.
 
-    Returns:
-        None
+    target_cell : str
+        Starting cell.
 
-    Raises:
-        Exception: If the function fails to update the worksheet after the specified number of retries.
+    data_df : pandas.DataFrame
+        Dataframe to upload.
 
-    Example:
-        Update worksheet with dataframe data. For the parameter target_cell is highly
-        recommended the use of the function find_next_row_with_resilience().
-
-        next_row = find_next_row_with_resilience(worksheet, col_index=2)
-            - supose next_row is 5
-
-        target_cell = "B" + str(next_row)
-            - then target_cell will be "B5"
-
-        safe_worksheet_update(worksheet, target_cell="B5", dataframe.astype(str))
-
+    Returns
+    -------
+    None
     """
-    count = 0
-    while count < limit:
+
+    attempt = 0
+
+    while attempt < limit:
+
         try:
-            tab_obj.update(target_cell, data_df.values.tolist(), value_input_option="RAW")
+
+            worksheet.update(
+                target_cell,
+                data_df.values.tolist(),
+                value_input_option="RAW",
+            )
+
             print("Sync complete.")
+
             return
+
         except Exception as error:
-            count += 1
-            if count < limit:
+
+            attempt += 1
+
+            if attempt < limit:
                 sleep(wait)
             else:
-                raise Exception(f"Update failed after {limit} tries. Error: {error}")
+                raise Exception(f"Update failed: {error}")
