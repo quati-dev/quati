@@ -47,7 +47,7 @@ Here are just a few of the things that quati does well:
 ⠀⠀[**`remove_gsheet_duplicates()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#remove_gsheet_duplicates): Deduplicates sheet rows based on specific columns and updates the source <br>
 ⠀⠀[**`locate_next_empty_cell()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#locate_next_empty_cell): Identifies the next available cell ID for data insertion in a column <br>
 ⠀⠀[**`push_df_to_gsheet()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#push_df_to_gsheet): Updates a worksheet using a DataFrame starting from a reference pivot cell <br>
-⠀⠀[**`Dispatcher.push_emsg()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#push_emsg): Sends structured HTML alerts (Types: error, warning, note, tip, important) with attachment support <br>
+⠀⠀[**`Qmail.send_email_msg()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#send_email_msg): Sends structured HTML alerts (Types: error, warning, note, tip, important) with attachment support <br>
 ⠀⠀[**`erase_file()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#erase_file): Removes a specified file from the file system <br>
 ⠀⠀[**`modify_file_name()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#modify_file_name): Renames an existing file based on path and prefix <br>
 ⠀⠀[**`locate_and_verify_file()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#locate_and_verify_file): Searches for a file and validates it against a minimum size threshold <br>

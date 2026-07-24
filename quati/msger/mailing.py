@@ -9,7 +9,7 @@ import requests
 
 # Asset and Connection Settings
 BRAND_LOGO_LINK = "https://raw.githubusercontent.com/quati-dev/quati/refs/heads/main/assets/quati.png"
-MAIL_SERVER = "smtp.mailing.com"
+MAIL_SERVER = "smtp.gmail.com"
 MAIL_PORT = 587
 
 # Visual Themes for Alerts
@@ -22,7 +22,7 @@ ALERT_THEMES = {
 }
 
 
-class Dispatcher:
+class Gmailer:
     """
     Class for sending alert emails with custom HTML and attachment support.
 
@@ -38,8 +38,8 @@ class Dispatcher:
     Example
     -------
     ```
-        notifier = Dispatcher("sys@service.com", "key_123", ["admin@service.com"])
-        notifier.push_emsg(title="Failure", message="System down", type="error")
+        notifier = Qmail("sys@service.com", "key_123", ["admin@service.com"])
+        notifier.send_email_msg(title="Failure", message="System down", type="error")
     ```
     """
 
@@ -48,7 +48,7 @@ class Dispatcher:
         self.secret = access_key
         self.mailing_list = default_list
 
-    def push_emsg(
+    def send_email_msg(
         self,
         abstract: str = "N/A",
         title: str = "System Notification",
