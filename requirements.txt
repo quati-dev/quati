@@ -1,6 +1,7 @@
 google-cloud-bigquery
 google-cloud-bigquery-storage
 gspread
+oauth2client
 oauthlib
 pandas
 pandas-gbq
