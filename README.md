@@ -38,6 +38,12 @@ and reduced time-to-market.
 ## Main Features
 Here are just a few of the things that quati does well:
 
+<div align="center">
+	<img width="70%" src="https://raw.githubusercontent.com/quati-dev/quati/refs/heads/main/assets/banner.png" >
+</div>
+
+<br>
+
 ⠀⠀[**`convert_magnitude_string()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#convert_magnitude_string): Transforms string-based magnitude suffixes (K, M, B) into numerical integers <br>
 ⠀⠀[**`format_column_header()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#format_column_header): Normalizes DataFrame column names by handling special characters and casing <br>
 ⠀⠀[**`sync_dataframe_to_bq_schema()`**](https://github.com/quati-dev/quati/blob/main/doc/DOCUMENTATION.md#sync_dataframe_to_bq_schema): Aligns Pandas DataFrame data types with a specific BigQuery table schema <br>
